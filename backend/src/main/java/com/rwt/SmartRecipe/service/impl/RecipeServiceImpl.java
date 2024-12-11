@@ -10,12 +10,14 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -58,10 +60,10 @@ public class RecipeServiceImpl implements RecipeService {
                 new EntityNotFoundException("Couldn't find recipe by this title"));
     }
 
-    @Override
-    public List<RecipeDTO> getRecipesByTags(List<String> tags) {
-        return recipeRepository.findByTags(tags).stream().map(this::recipeToDTO).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<RecipeDTO> getRecipesByTag(String tag) {
+//        return recipeRepository.findByTags(tag).stream().map(this::recipeToDTO).collect(Collectors.toList());
+//    }
 
     @Override
     public RecipeDTO createRecipe(RecipeDTO recipeDTO, UUID creatorId) {

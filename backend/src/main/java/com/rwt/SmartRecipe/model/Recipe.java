@@ -1,10 +1,11 @@
 package com.rwt.SmartRecipe.model;
 
-import com.rwt.SmartRecipe.dto.user.UserDTO;
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.hibernate.annotations.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "recipe_id")
     private UUID id;
 
     @ManyToOne
@@ -27,14 +29,14 @@ public class Recipe {
     @Column(name = "image")
     private String image;
 
-    @ElementCollection
-    @Column(name = "ingredients")
-    private List<String> ingredients;
+    @Type(ListArrayType.class)
+    @Column(name = "ingredients", columnDefinition = "text[]")
+    private List<String> ingredients = new ArrayList<>();
 
     @Column(name = "steps")
     private String steps;
 
-    @ElementCollection
-    @Column(name = "tags")
-    private List<String> tags;
+    @Type(ListArrayType.class)
+    @Column(name = "tags", columnDefinition = "text[]")
+    private List<String> tags = new ArrayList<>();
 }

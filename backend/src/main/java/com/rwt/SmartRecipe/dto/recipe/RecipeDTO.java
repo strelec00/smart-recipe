@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,9 +22,9 @@ public class RecipeDTO {
 
     private String image;
 
-    private List<String> ingredients;
+    private List<String> ingredients = new ArrayList<>();
 
     private String steps;
 
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 }

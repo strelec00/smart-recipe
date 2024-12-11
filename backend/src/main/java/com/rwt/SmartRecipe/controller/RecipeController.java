@@ -34,18 +34,17 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRecipeById(id));
     }
 
-    @GetMapping("/recipe/{title}")
+    @GetMapping("/recipe/title{title}")
     private ResponseEntity<RecipeDTO> getRecipeByTitle(@PathVariable String title) {
         return ResponseEntity.ok(recipeService.getRecipeByTitle(title));
     }
 
-    @GetMapping("/recipe/tags")
-    private ResponseEntity<List<RecipeDTO>> getRecipesByTags(
-            @Valid @RequestBody List<String> tags) {
-        return ResponseEntity.ok(recipeService.getRecipesByTags(tags));
-    }
+//    @GetMapping("/recipe/tags/{tag}")
+//    private ResponseEntity<List<RecipeDTO>> getRecipesByTag(@PathVariable String tag) {
+//        return ResponseEntity.ok(recipeService.getRecipesByTag(tag));
+//    }
 
-    @PostMapping("/recipe/create{creatorId}")
+    @PostMapping("/recipe/create/{creatorId}")
     private ResponseEntity<RecipeDTO> createRecipe(
             @Valid @RequestBody RecipeCreationRequestDTO recipeCreationRequestDTO,
             @PathVariable UUID creatorId
@@ -53,6 +52,7 @@ public class RecipeController {
         RecipeDTO recipe = new RecipeDTO();
         recipe.setTitle(recipeCreationRequestDTO.getTitle());
         recipe.setImage(recipeCreationRequestDTO.getImage());
+        recipe.setIngredients(recipeCreationRequestDTO.getIngredients());
         recipe.setSteps(recipeCreationRequestDTO.getSteps());
         recipe.setTags(recipeCreationRequestDTO.getTags());
 

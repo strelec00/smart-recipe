@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,10 +22,10 @@ public class RecipeCreationRequestDTO {
     private String image;
 
     @NotNull(message = "Ingredient list is required")
-    private List<String> ingredients;
+    private List<String> ingredients = new ArrayList<>();
 
     @NotNull(message = "The steps for the recipe are required")
     private String steps;
 
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 }

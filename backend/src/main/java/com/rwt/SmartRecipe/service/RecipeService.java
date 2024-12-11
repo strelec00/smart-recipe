@@ -19,7 +19,7 @@ public interface RecipeService {
 
     RecipeDTO getRecipeByTitle(String title);
 
-    List<RecipeDTO> getRecipesByTags(List<String> tags);
+//    List<RecipeDTO> getRecipesByTag(String tag);
 
     RecipeDTO createRecipe(RecipeDTO recipeDTO, UUID creatorId);
 

@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository, UserService userService, ModelMapper modelMapper) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository,
+                             UserService userService,
+                             ModelMapper modelMapper) {
         this.recipeRepository = recipeRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
         this.modelMapper = modelMapper;
     }

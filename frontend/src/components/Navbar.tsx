@@ -1,4 +1,4 @@
-import Button from "./button";
+import Button from "./Button";
 import logo from "../assets/logo_navbar.png";
 
 const Navbar = () => {
@@ -9,7 +9,7 @@ const Navbar = () => {
         className="w-auto h-3/4 object-contain"
         alt="logo navbar"
       />
-      <Button className=" " text="Login" />
+      <Button className="" text="Login" />
     </div>
   );
 };

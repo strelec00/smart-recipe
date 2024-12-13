@@ -2,6 +2,7 @@ package com.rwt.SmartRecipe.controller;
 
 import com.rwt.SmartRecipe.dto.user.UserDTO;
 import com.rwt.SmartRecipe.dto.user.UserSignUpRequestDTO;
+import com.rwt.SmartRecipe.dto.user.UserCredentialUpdateRequestDTO;
 import com.rwt.SmartRecipe.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,18 @@ public class UserController {
         );
 
         return ResponseEntity.ok(userService.createUser(user));
+    }
+
+    @PutMapping("/users/credentials/{id}")
+    public ResponseEntity<UserDTO> updateUserCredentials(
+            @PathVariable UUID id,
+            @Valid @RequestBody UserCredentialUpdateRequestDTO userUpdateRequest
+            ) {
+        UserDTO user = userService.getUserById(id);
+        user.setFirstName(userUpdateRequest.getFirstName());
+        user.setLastName(userUpdateRequest.getLastName());
+
+        return ResponseEntity.ok(userService.updateUser(user, id));
     }
 
     @DeleteMapping("/users/{id}")

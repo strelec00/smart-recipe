@@ -1,6 +1,5 @@
 package com.rwt.SmartRecipe.service.impl;
 
-import com.rwt.SmartRecipe.dto.recipe.RecipeDTO;
 import com.rwt.SmartRecipe.dto.review.ReviewDTO;
 import com.rwt.SmartRecipe.model.Review;
 import com.rwt.SmartRecipe.repository.ReviewRepository;
@@ -58,12 +57,16 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDTO> getReviewsByRecipe(UUID recipeId) {
-        return reviewRepository.findByReviewedRecipe(recipeService.getRecipeById(recipeId)).stream().map(this::reviewToDTO).collect(Collectors.toList());
+        return reviewRepository.findByReviewedRecipe(
+                recipeService.recipeDTOtoEntity(recipeService.getRecipeById(recipeId)))
+                .stream().map(this::reviewToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<ReviewDTO> getReviewsByCreator(UUID creatorId) {
-        return reviewRepository.findByCreatedBy(userService.getUserById(creatorId)).stream().map(this::reviewToDTO).collect(Collectors.toList());
+        return reviewRepository.findByCreatedBy(
+                userService.userDTOtoEntity(userService.getUserById(creatorId)))
+                .stream().map(this::reviewToDTO).collect(Collectors.toList());
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.rwt.SmartRecipe.controller;
 
+import com.rwt.SmartRecipe.dto.recipe.FavouriteRecipeDTO;
 import com.rwt.SmartRecipe.dto.recipe.RecipeCreationRequestDTO;
 import com.rwt.SmartRecipe.dto.recipe.RecipeDTO;
+import com.rwt.SmartRecipe.dto.user.UserDTO;
+import com.rwt.SmartRecipe.repository.FavouriteRecipeRepository;
 import com.rwt.SmartRecipe.service.RecipeService;
+import com.rwt.SmartRecipe.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +22,16 @@ import java.util.UUID;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final UserService userService;
+    private final FavouriteRecipeRepository favouriteRecipeRepository;
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService,
+                            UserService userService,
+                            FavouriteRecipeRepository favouriteRecipeRepository) {
         this.recipeService = recipeService;
+        this.userService = userService;
+        this.favouriteRecipeRepository = favouriteRecipeRepository;
     }
 
     @GetMapping("/recipe")
@@ -44,6 +54,13 @@ public class RecipeController {
 //        return ResponseEntity.ok(recipeService.getRecipesByTag(tag));
 //    }
 
+    @GetMapping("/recipe/favourite/{userId}")
+    private ResponseEntity<List<RecipeDTO>> getUsersFavouriteRecipes(@PathVariable UUID userId) {
+        UserDTO user = userService.getUserById(userId);
+
+        return ResponseEntity.ok(recipeService.getUsersFavRecipes(user));
+    }
+
     @PostMapping("/recipe/create/{creatorId}")
     private ResponseEntity<RecipeDTO> createRecipe(
             @Valid @RequestBody RecipeCreationRequestDTO recipeCreationRequestDTO,
@@ -57,6 +74,17 @@ public class RecipeController {
         recipe.setTags(recipeCreationRequestDTO.getTags());
 
         return ResponseEntity.ok(recipeService.createRecipe(recipe, creatorId));
+    }
+
+    @PostMapping("/recipe/favourite/{recipeId}/{userId}")
+    private ResponseEntity<FavouriteRecipeDTO> favouriteRecipe(
+            @PathVariable UUID recipeId, @PathVariable UUID userId
+    ) {
+        FavouriteRecipeDTO favRecipe = new FavouriteRecipeDTO();
+        favRecipe.setRecipe(recipeService.getRecipeById(recipeId));
+        favRecipe.setUser(userService.getUserById(userId));
+
+        return ResponseEntity.ok(recipeService.favouriteRecipe(favRecipe));
     }
 
     @DeleteMapping("/recipe/delete/{id}")

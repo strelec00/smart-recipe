@@ -1,9 +1,12 @@
 package com.rwt.SmartRecipe.service.impl;
 
+import com.rwt.SmartRecipe.dto.recipe.FavouriteRecipeDTO;
 import com.rwt.SmartRecipe.dto.recipe.RecipeDTO;
+import com.rwt.SmartRecipe.dto.user.UserDTO;
+import com.rwt.SmartRecipe.model.FavouriteRecipe;
 import com.rwt.SmartRecipe.model.Recipe;
+import com.rwt.SmartRecipe.repository.FavouriteRecipeRepository;
 import com.rwt.SmartRecipe.repository.RecipeRepository;
-import com.rwt.SmartRecipe.repository.UserRepository;
 import com.rwt.SmartRecipe.service.RecipeService;
 import com.rwt.SmartRecipe.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,14 +26,17 @@ import java.util.stream.Collectors;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final FavouriteRecipeRepository favouriteRecipeRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository,
+                             FavouriteRecipeRepository favouriteRecipeRepository,
                              UserService userService,
                              ModelMapper modelMapper) {
         this.recipeRepository = recipeRepository;
+        this.favouriteRecipeRepository = favouriteRecipeRepository;
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
@@ -41,6 +49,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe recipeDTOtoEntity(RecipeDTO recipeDTO) {
         return modelMapper.map(recipeDTO, Recipe.class);
+    }
+
+    @Override
+    public FavouriteRecipeDTO favRecipeToDTO(FavouriteRecipe favouriteRecipe) {
+        return modelMapper.map(favouriteRecipe, FavouriteRecipeDTO.class);
+    }
+
+    @Override
+    public FavouriteRecipe favRecipeDTOtoEntity(FavouriteRecipeDTO favouriteRecipeDTO) {
+        return modelMapper.map(favouriteRecipeDTO, FavouriteRecipe.class);
     }
 
     @Override
@@ -60,6 +78,14 @@ public class RecipeServiceImpl implements RecipeService {
                 new EntityNotFoundException("Couldn't find recipe by this title"));
     }
 
+    @Override
+    public List<RecipeDTO> getUsersFavRecipes(UserDTO userDTO) {
+       List<FavouriteRecipeDTO> favRecipes = favouriteRecipeRepository.
+               getFavouriteRecipeByUser(userService.userDTOtoEntity(userDTO)).stream().map(this::favRecipeToDTO).toList();
+
+        return favRecipes.stream().map(FavouriteRecipeDTO::getRecipe).collect(Collectors.toList());
+    }
+
 //    @Override
 //    public List<RecipeDTO> getRecipesByTag(String tag) {
 //        return recipeRepository.findByTags(tag).stream().map(this::recipeToDTO).collect(Collectors.toList());
@@ -69,6 +95,11 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDTO createRecipe(RecipeDTO recipeDTO, UUID creatorId) {
         recipeDTO.setCreator(userService.getUserById(creatorId));
         return recipeToDTO(recipeRepository.save(recipeDTOtoEntity(recipeDTO)));
+    }
+
+    @Override
+    public FavouriteRecipeDTO favouriteRecipe(FavouriteRecipeDTO favouriteRecipeDTO) {
+        return favRecipeToDTO(favouriteRecipeRepository.save(favRecipeDTOtoEntity(favouriteRecipeDTO)));
     }
 
     @Override

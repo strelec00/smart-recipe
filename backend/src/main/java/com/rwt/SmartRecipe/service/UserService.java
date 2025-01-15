@@ -3,7 +3,6 @@ package com.rwt.SmartRecipe.service;
 
 import com.rwt.SmartRecipe.dto.user.UserDTO;
 import com.rwt.SmartRecipe.model.User;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;

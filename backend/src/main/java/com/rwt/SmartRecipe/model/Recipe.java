@@ -39,4 +39,9 @@ public class Recipe {
     @Type(ListArrayType.class)
     @Column(name = "tags", columnDefinition = "text[]")
     private List<String> tags = new ArrayList<>();
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

@@ -6,15 +6,33 @@ import HamburgerMenu from "./HamburgerMenu";
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
 
+  const par1 = "Home";
+  const par2 = "About";
+  const par3 = "Login";
+  const par4 = "Contact";
+
   return (
-    <div className="flex flex-col justify-between h-[832px] w-full sm:w-auto p-3 bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain">
+    <div
+      className="flex flex-col justify-between h-[832px] w-full sm:w-auto p-3 bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain"
+      id={par1}
+    >
       {/* Fixed Header */}
       <div className="w-full h-[70px] pl-[25px] pt-[15px] flex justify-between items-center z-50 fixed">
-        <Hamburger toggled={isOpen} toggle={setOpen} size={95} />
+        <div
+          style={{ color: isOpen ? "white" : "black" }} // Conditional inline styles
+        >
+          <Hamburger toggled={isOpen} toggle={setOpen} size={95} />
+        </div>
       </div>
 
       {/* Responsive Menu */}
-      <HamburgerMenu isOpen={isOpen} />
+      <HamburgerMenu
+        isOpen={isOpen}
+        par1={par1}
+        par2={par2}
+        par3={par3}
+        par4={par4}
+      />
 
       {/* Main Content */}
       <div className="w-full flex-1 mt-[230px] flex">

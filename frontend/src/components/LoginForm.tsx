@@ -69,7 +69,19 @@ const LoginForm = () => {
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "🙈" : "👁️"}
+              {showPassword ? (
+                <img
+                  src="../src/assets/icons/open-eye.svg"
+                  alt="Hide password"
+                  className="w-5 h-5 mt-1"
+                />
+              ) : (
+                <img
+                  src="../src/assets/icons/closed-eye.svg"
+                  alt="Show password"
+                  className="w-5 h-5 mt-1"
+                />
+              )}
             </span>
           </div>
           {/* Remember Me and Forgot Password */}
@@ -101,7 +113,7 @@ const LoginForm = () => {
         {/* Social Login Buttons */}
         <div className="space-y-3">
           {/* Google Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/google.png"
               alt="Google"
@@ -111,7 +123,7 @@ const LoginForm = () => {
           </button>
 
           {/* Facebook Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/facebook.png"
               alt="Facebook"
@@ -121,7 +133,7 @@ const LoginForm = () => {
           </button>
 
           {/* Apple Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/apple.png"
               alt="Apple"

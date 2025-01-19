@@ -5,7 +5,7 @@ import RegisterForm from "./components/RegisterForm";
 const App = () => {
   return (
     <div className="">
-      <RegisterForm />
+      <LoginForm />
     </div>
   );
 };

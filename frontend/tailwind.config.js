@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         crimson: ["Crimson Text", "serif"],
+        robotnik: ['"Robotnik"', "sans-serif"],
       },
     },
   },

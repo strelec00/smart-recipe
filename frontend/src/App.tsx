@@ -1,9 +1,10 @@
 import Header from "./components/Header";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   return (
     <div className="">
-      <Header />
+      <LoginForm />
     </div>
   );
 };

@@ -8,6 +8,9 @@ export default {
         crimson: ["Crimson Text", "serif"],
         robotnik: ['"Robotnik"', "sans-serif"],
       },
+      screens: {
+        xs: "500px", // Add a custom 'xs' breakpoint
+      },
     },
   },
   plugins: [],

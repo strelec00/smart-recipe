@@ -15,9 +15,12 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen lg:p-20 md:p-10 sm:p-[50px] p-[20px]">
-      <div className="sm:w-full md:w-2/5 w-[0px] hidden sm:block p-3 bg-[url('../src/assets/loginImage.png')] bg-no-repeat bg-cover bg-center h-full rounded-l-3xl"></div>
-      <div className="sm:w-full md:w-1/3 w-full p-6 shadow-lg bg-[#FFDCD6] h-full sm:rounded-r-3xl sm:rounded rounded-3xl">
+    <div className="flex items-center justify-center w-screen h-screen lg:p-20 md:p-20 sm:p-[50px] xs:p-[40px] xs:py-[100px] py-[100px] px-[10px] bg-gray-100">
+      {/* First Div (Image Section) */}
+      <div className="sm:w-full lg:w-2/5 w-[0px] hidden p-3 bg-[url('../src/assets/login.png')] bg-no-repeat bg-cover bg-center h-full sm:flex sm:flex-col sm:justify-center sm:items-center rounded-l-3xl"></div>
+
+      {/* Second Div (Form Section) */}
+      <div className="sm:w-full lg:w-1/3 w-full p-6 shadow-lg bg-[#FFDCD6] h-full flex flex-col justify-center sm:rounded-r-3xl sm:rounded rounded-3xl">
         <h2 className="text-[13px] text-gray-700 text-left mb-1 mt-6">
           WELCOME BACK
         </h2>
@@ -40,7 +43,7 @@ const LoginForm = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="johndoe@example.com"
-              className="w-full mt-1 p-2 border border-gray-600 bg-[#FFDCD6] rounded-lg focus:outline-none focus:ring focus:ring-[#EF5C0C]"
+              className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
           </div>
@@ -59,7 +62,7 @@ const LoginForm = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="********"
-              className="w-full mt-1 p-2 border border-gray-600 bg-[#FFDCD6] rounded-lg focus:outline-none focus:ring focus:ring-[#EF5C0C]"
+              className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
             <span
@@ -91,40 +94,40 @@ const LoginForm = () => {
           </button>
         </form>
         <div className="flex items-center my-4">
-          <hr className="flex-grow border-gray-300" />
+          <hr className="flex-grow border-gray-500" />
           <span className="mx-2 text-sm text-gray-500">OR</span>
-          <hr className="flex-grow border-gray-300" />
+          <hr className="flex-grow border-gray-500" />
         </div>
         {/* Social Login Buttons */}
         <div className="space-y-3">
           {/* Google Button */}
           <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
             <img
-              src="../src/assets/icon_google.png"
+              src="../src/assets/icons/google.png"
               alt="Google"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Google</span>{" "}
+            <span className="w-full text-center">Log In with Google</span>
           </button>
 
           {/* Facebook Button */}
           <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
             <img
-              src="../src/assets/icon_fb.png"
+              src="../src/assets/icons/facebook.png"
               alt="Facebook"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Facebook</span>{" "}
+            <span className="w-full text-center">Log In with Facebook</span>
           </button>
 
           {/* Apple Button */}
           <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
             <img
-              src="../src/assets/icon_apple.png"
+              src="../src/assets/icons/apple.png"
               alt="Apple"
-              className="absolute left-4 w-5 h-5"
+              className="absolute left-4 h-5"
             />
-            <span className="w-full text-center">Log In with Apple</span>{" "}
+            <span className="w-full text-center">Log In with Apple</span>
           </button>
         </div>
 

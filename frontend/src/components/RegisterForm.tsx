@@ -1,10 +1,14 @@
 import { useState } from "react";
 
-const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+const RegisterForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -22,17 +26,36 @@ const LoginForm = () => {
       {/* Second Div (Form Section) */}
       <div className="sm:w-full lg:w-1/3 w-full p-6 shadow-lg bg-[#FFDCD6] h-full flex flex-col justify-center sm:rounded-r-3xl sm:rounded rounded-3xl">
         <h2 className="text-[13px] text-gray-700 text-left mb-1 mt-6">
-          WELCOME BACK
+          LET'S GET YOU STARTED
         </h2>
         <h3 className="text-[23px] text-black text-left mb-5">
-          Log In to your Account
+          Create an Account
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name Input */}
+          <div className="relative">
+            <label
+              htmlFor="name"
+              className="block text-[13px] text-gray-500 absolute left-2 bottom-[33px] bg-[#FFDCD6] px-[10px]"
+            >
+              Your Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="John Doe"
+              className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
+              required
+            />
+          </div>
           {/* Email Input */}
           <div className="relative">
             <label
               htmlFor="email"
-              className="block text-[13px] text-gray-500 absolute left-4 bottom-[33px] bg-[#FFDCD6] px-[10px]"
+              className="block text-[13px] text-gray-500 absolute left-2 bottom-[33px] bg-[#FFDCD6] px-[10px]"
             >
               Email
             </label>
@@ -84,19 +107,7 @@ const LoginForm = () => {
               )}
             </span>
           </div>
-          {/* Remember Me and Forgot Password */}
-          <div className="flex items-center justify-between">
-            <label className="flex items-center text-sm text-gray-600">
-              <input
-                type="checkbox"
-                className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              Remember me
-            </label>
-            <a href="" className="text-sm hover:underline text-gray-600">
-              Forgot Password?
-            </a>
-          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
@@ -119,7 +130,7 @@ const LoginForm = () => {
               alt="Google"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Google</span>
+            <span className="w-full text-center">Sign Up with Google</span>
           </button>
 
           {/* Facebook Button */}
@@ -129,7 +140,7 @@ const LoginForm = () => {
               alt="Facebook"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Facebook</span>
+            <span className="w-full text-center">Sign Up with Facebook</span>
           </button>
 
           {/* Apple Button */}
@@ -139,18 +150,18 @@ const LoginForm = () => {
               alt="Apple"
               className="absolute left-4 h-5"
             />
-            <span className="w-full text-center">Log In with Apple</span>
+            <span className="w-full text-center">Sign Up with Apple</span>
           </button>
         </div>
 
         {/* Signup Link */}
         <p className="mt-6 text-center text-sm text-gray-600">
-          New User?{" "}
+          Already have an account?{" "}
           <a
-            href="/signup"
+            href="/login"
             className="text-blue-600 hover:underline font-medium"
           >
-            SIGN UP HERE
+            LOGIN HERE
           </a>
         </p>
       </div>
@@ -158,4 +169,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

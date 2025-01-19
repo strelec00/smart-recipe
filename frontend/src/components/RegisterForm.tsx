@@ -92,7 +92,19 @@ const RegisterForm = () => {
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "🙈" : "👁️"}
+              {showPassword ? (
+                <img
+                  src="../src/assets/icons/open-eye.svg"
+                  alt="Hide password"
+                  className="w-5 h-5 mt-1"
+                />
+              ) : (
+                <img
+                  src="../src/assets/icons/closed-eye.svg"
+                  alt="Show password"
+                  className="w-5 h-5 mt-1"
+                />
+              )}
             </span>
           </div>
 
@@ -112,33 +124,33 @@ const RegisterForm = () => {
         {/* Social Login Buttons */}
         <div className="space-y-3">
           {/* Google Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/google.png"
               alt="Google"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Google</span>
+            <span className="w-full text-center">Sign Up with Google</span>
           </button>
 
           {/* Facebook Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/facebook.png"
               alt="Facebook"
               className="w-5 h-5 absolute left-4"
             />
-            <span className="w-full text-center">Log In with Facebook</span>
+            <span className="w-full text-center">Sign Up with Facebook</span>
           </button>
 
           {/* Apple Button */}
-          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[15px]">
+          <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img
               src="../src/assets/icons/apple.png"
               alt="Apple"
               className="absolute left-4 h-5"
             />
-            <span className="w-full text-center">Log In with Apple</span>
+            <span className="w-full text-center">Sign Up with Apple</span>
           </button>
         </div>
 

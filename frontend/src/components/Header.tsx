@@ -6,15 +6,15 @@ import HamburgerMenu from "./HamburgerMenu";
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
 
-  const par1 = "Home";
-  const par2 = "About";
-  const par3 = "Login";
-  const par4 = "Contact";
+  const par1 = "HOME";
+  const par2 = "ABOUT";
+  const par3 = "LOGIN";
+  const par4 = "CONTACT";
 
   return (
     <div
       className="flex flex-col justify-between h-[832px] w-full sm:w-auto p-3 bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain"
-      id={par1}
+      id="home"
     >
       {/* Fixed Header */}
       <div className="w-full h-[70px] pl-[25px] pt-[15px] flex justify-between items-center z-50 fixed">

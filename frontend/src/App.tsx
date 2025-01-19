@@ -5,6 +5,8 @@ import RegisterForm from "./components/RegisterForm";
 const App = () => {
   return (
     <div className="">
+      <Header />
+      <RegisterForm />
       <LoginForm />
     </div>
   );

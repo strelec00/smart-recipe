@@ -13,6 +13,11 @@ const Header = () => {
   const par4 = "CONTACT";
 
   return (
+    /*
+    
+    Create parent div in which there will be 2 childer divs (left will be main content, right will be bg-image)
+    
+    */
     <div
       className="flex justify-between h-screen w-full sm:w-auto p-3 md:bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain ]"
       id="home"

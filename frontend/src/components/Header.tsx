@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <div
-      className="flex justify-between h-screen w-full sm:w-auto p-3 md:bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain"
+      className="flex justify-between h-screen w-full sm:w-auto p-3 md:bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain ]"
       id="home"
     >
       {/* Fixed Header */}
@@ -36,8 +36,8 @@ const Header = () => {
       />
 
       {/* Main Content */}
-      <div className="w-full flex-1 flex  items-center md:justify-normal justify-center">
-        <div className="md:w-2/5 w-screen  text-center  md:h-2/5 h-1">
+      <div className="w-full flex-1 flex  items-center md:justify-normal justify-center h-screen">
+        <div className="md:w-2/5 w-screen  text-center  md:h-2/5  ">
           <p className="text-[52px] font-crimson mb-[20px] font-light">
             Be your own Chef
           </p>

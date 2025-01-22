@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,7 +56,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserDTO user) {
+    public UserDTO createUser(UserDTO user) throws ValidationException {
+        if(userRepository.existsByUsername(user.getUsername()) ||
+            userRepository.existsByEmail(user.getEmail())) {
+
+            throw new ValidationException("Username or email already exists");
+        }
+
         return userToDTO(userRepository.save(userDTOtoEntity(user)));
     }
 

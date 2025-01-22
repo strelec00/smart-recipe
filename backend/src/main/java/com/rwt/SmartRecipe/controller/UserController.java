@@ -1,14 +1,15 @@
 package com.rwt.SmartRecipe.controller;
 
-import com.rwt.SmartRecipe.dto.user.UserDTO;
-import com.rwt.SmartRecipe.dto.user.UserSignUpRequestDTO;
-import com.rwt.SmartRecipe.dto.user.UserCredentialUpdateRequestDTO;
+import com.rwt.SmartRecipe.dto.user.*;
+import com.rwt.SmartRecipe.service.AuthenticationService;
 import com.rwt.SmartRecipe.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,14 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationService authenticationService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/users")
@@ -40,20 +45,30 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PostMapping("users/create")
+    @PostMapping("users/auth/register")
     public ResponseEntity<UserDTO> signUp(
-            @Valid @RequestBody UserSignUpRequestDTO userSignUpRequest) {
+            @Valid @RequestBody final UserSignUpRequestDTO userSignUpRequest) {
         UserDTO user = new UserDTO(
                 null,
                 userSignUpRequest.getUsername(),
                 userSignUpRequest.getEmail(),
-                userSignUpRequest.getPassword(),
+                passwordEncoder.encode(userSignUpRequest.getPassword()),
                 userSignUpRequest.getFirstName(),
                 userSignUpRequest.getLastName(),
-                userSignUpRequest.getProfileImageUrl()
+                null
         );
 
-        return ResponseEntity.ok(userService.createUser(user));
+        try {
+            return ResponseEntity.ok(userService.createUser(user));
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("users/auth/login")
+    public ResponseEntity<AuthenticationResponseDTO> logIn(
+            @RequestBody final UserLogInRequestDTO userLogIn) {
+        return ResponseEntity.ok(authenticationService.authenticate(userLogIn));
     }
 
     @PutMapping("/users/credentials/{id}")

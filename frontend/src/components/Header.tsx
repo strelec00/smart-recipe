@@ -11,17 +11,8 @@ const Header = () => {
   const par2 = "ABOUT";
   const par3 = "LOGIN";
   const par4 = "CONTACT";
-
   return (
-    /*
-    
-    Create parent div in which there will be 2 childer divs (left will be main content, right will be bg-image)
-    
-    */
-    <div
-      className="flex justify-between h-screen w-full sm:w-auto p-3 md:bg-[url('../src/assets/bg_chef_red.png')] bg-right-top bg-no-repeat bg-contain ]"
-      id="home"
-    >
+    <div className="flex">
       {/* Fixed Header */}
       <div className="w-full h-[70px] pl-[25px] pt-[15px] flex justify-between items-center z-50 fixed">
         <div
@@ -40,32 +31,40 @@ const Header = () => {
         par4={par4}
       />
 
-      {/* Main Content */}
-      <div className="w-full flex-1 flex  items-center md:justify-normal justify-center h-screen">
-        <div className="md:w-2/5 w-screen  text-center  md:h-2/5  ">
-          <p className="text-[52px] font-crimson mb-[20px] font-light">
-            Be your own Chef
-          </p>
-          <p className="text-[22px] font-crimson px-[0px] font-light">
-            Create recipes with ingredients you have at home, access our AI
-            recipe maker
-          </p>
-          <div className="flex justify-center mt-[50px] space-x-9">
-            <Button
-              className="rounded-[30px] border-black border w-[148px] h-[41px]"
-              text="Learn more"
-            />
-            <Link to="/login">
+      {/* Main Content & Background */}
+      <div className="flex h-auto w-full">
+        {/* Main Content */}
+        <div className="xmd:w-1/3 w-full flex xmd:justify-normal justify-center ml-9 mt-60">
+          <div className="w-full text-center">
+            <p className="text-[52px] font-crimson mb-[20px] font-light">
+              Be your own Chef
+            </p>
+            <p className="text-[22px] font-crimson px-[0px] font-light">
+              Create recipes with ingredients you have at home, access our AI
+              recipe maker
+            </p>
+            <div className="flex justify-center mt-[50px] space-x-9">
               <Button
-                className="bg-[#EE4C0C] rounded-[30px] w-[148px] h-[41px]"
-                text="Login"
+                className="rounded-[30px] border-black border w-[148px] h-[41px]"
+                text="Learn more"
               />
-            </Link>
+              <Link to="/login">
+                <Button
+                  className="bg-[#EE4C0C] rounded-[30px] w-[148px] h-[41px] text-stone-50 font-medium"
+                  text="Login"
+                />
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Background Image */}
+        <div
+          className="h-screen xmd:w-2/3 p-3 xmd:bg-[url('../src/assets/bg_chef_red2.png')] bg-right-top bg-no-repeat bg-contain"
+          id="home"
+        ></div>
       </div>
     </div>
   );
 };
-
 export default Header;

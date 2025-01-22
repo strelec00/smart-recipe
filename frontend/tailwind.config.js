@@ -10,6 +10,7 @@ export default {
       },
       screens: {
         xs: "500px", // Add a custom 'xs' breakpoint
+        xmd: "1170px",
       },
     },
   },

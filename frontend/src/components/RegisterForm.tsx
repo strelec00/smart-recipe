@@ -11,10 +11,28 @@ type FormFields = {
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit } = useForm<FormFields>();
-
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      throw new Error();
+      console.log(data);
+    } catch (error) {
+      setError("email", {
+        message: "Email already exists",
+      });
+      setError("username", {
+        message: "Username already exists",
+      });
+    }
   };
 
   return (
@@ -30,23 +48,34 @@ const RegisterForm = () => {
         <h3 className="text-[23px] text-black text-left mb-5">
           Create an Account
         </h3>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Input */}
           <div className="relative">
             <label
               htmlFor="username"
               className="block text-[13px] text-gray-500 absolute left-2 bottom-[33px] bg-[#FFDCD6] px-[10px]"
             >
-              Your Name
+              Your Username
             </label>
             <input
               type="text"
               id="username"
-              {...register("username", { required: true, minLength: 5 })}
+              {...register("username", {
+                required: "Username is required",
+                minLength: {
+                  value: 3,
+                  message: "Username must be at least 3 characters",
+                },
+              })}
               placeholder="John Doe"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.username && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.username.message}
+              </div>
+            )}
           </div>
           {/* Email Input */}
           <div className="relative">
@@ -56,17 +85,24 @@ const RegisterForm = () => {
             >
               Email
             </label>
+
             <input
               type="email"
               id="email"
               {...register("email", {
-                required: true,
-                pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                required: "Email is required",
+                validate: (value) =>
+                  /\S+@\S+\.\S+/.test(value) || "Invalid email",
               })}
               placeholder="johndoe@example.com"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.email && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.email.message}
+              </div>
+            )}
           </div>
           {/* Password Input */}
           <div className="relative">
@@ -80,13 +116,21 @@ const RegisterForm = () => {
               type={showPassword ? "text" : "password"}
               id="password"
               {...register("password", {
-                required: true,
-                minLength: 8,
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
               })}
               placeholder="********"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.password && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.password.message}
+              </div>
+            )}
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
@@ -110,9 +154,10 @@ const RegisterForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-black text-white text-[14px] rounded-lg hover:bg-gray-800 h-12"
           >
-            CONTINUE
+            {isSubmitting ? "Loading..." : "SIGN UP"}
           </button>
         </form>
         <div className="flex items-center my-4">

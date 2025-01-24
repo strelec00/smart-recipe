@@ -14,6 +14,7 @@ const Header = () => {
   return (
     <div className="flex">
       {/* Fixed Header */}
+      {/*
       <div className="w-full h-[70px] pl-[25px] pt-[15px] flex justify-between items-center z-50 fixed">
         <div
           style={{ color: isOpen ? "white" : "black" }} // Conditional inline styles
@@ -22,7 +23,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Responsive Menu */}
       <HamburgerMenu
         isOpen={isOpen}
         par1={par1}
@@ -30,7 +30,7 @@ const Header = () => {
         par3={par3}
         par4={par4}
       />
-
+      */}
       {/* Main Content & Background */}
       <div className="flex h-auto w-full">
         {/* Main Content */}

@@ -1,22 +1,38 @@
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
+type FormFields = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: { target: { name: string; value: string } }) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      throw new Error();
+      console.log(data);
+    } catch (error) {
+      setError("email", {
+        message: "Email already exists",
+      });
+      setError("username", {
+        message: "Username already exists",
+      });
+    }
   };
 
   return (
@@ -32,25 +48,34 @@ const RegisterForm = () => {
         <h3 className="text-[23px] text-black text-left mb-5">
           Create an Account
         </h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Input */}
           <div className="relative">
             <label
-              htmlFor="name"
+              htmlFor="username"
               className="block text-[13px] text-gray-500 absolute left-2 bottom-[33px] bg-[#FFDCD6] px-[10px]"
             >
-              Your Name
+              Your Username
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
+              id="username"
+              {...register("username", {
+                required: "Username is required",
+                minLength: {
+                  value: 3,
+                  message: "Username must be at least 3 characters",
+                },
+              })}
               placeholder="John Doe"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.username && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.username.message}
+              </div>
+            )}
           </div>
           {/* Email Input */}
           <div className="relative">
@@ -60,16 +85,24 @@ const RegisterForm = () => {
             >
               Email
             </label>
+
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              {...register("email", {
+                required: "Email is required",
+                validate: (value) =>
+                  /\S+@\S+\.\S+/.test(value) || "Invalid email",
+              })}
               placeholder="johndoe@example.com"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.email && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.email.message}
+              </div>
+            )}
           </div>
           {/* Password Input */}
           <div className="relative">
@@ -82,13 +115,22 @@ const RegisterForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
               placeholder="********"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.password && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.password.message}
+              </div>
+            )}
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
@@ -112,9 +154,10 @@ const RegisterForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-black text-white text-[14px] rounded-lg hover:bg-gray-800 h-12"
           >
-            CONTINUE
+            {isSubmitting ? "Loading..." : "SIGN UP"}
           </button>
         </form>
         <div className="flex items-center my-4">

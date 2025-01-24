@@ -1,22 +1,20 @@
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
+type FormFields = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: { target: { name: string; value: string } }) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const { register, handleSubmit } = useForm<FormFields>();
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    console.log(data);
   };
 
   return (
@@ -32,21 +30,19 @@ const RegisterForm = () => {
         <h3 className="text-[23px] text-black text-left mb-5">
           Create an Account
         </h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Input */}
           <div className="relative">
             <label
-              htmlFor="name"
+              htmlFor="username"
               className="block text-[13px] text-gray-500 absolute left-2 bottom-[33px] bg-[#FFDCD6] px-[10px]"
             >
               Your Name
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
+              id="username"
+              {...register("username", { required: true, minLength: 5 })}
               placeholder="John Doe"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
@@ -63,9 +59,10 @@ const RegisterForm = () => {
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              {...register("email", {
+                required: true,
+                pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              })}
               placeholder="johndoe@example.com"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
@@ -82,9 +79,10 @@ const RegisterForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              {...register("password", {
+                required: true,
+                minLength: 8,
+              })}
               placeholder="********"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required

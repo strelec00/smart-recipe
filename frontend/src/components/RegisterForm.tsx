@@ -23,20 +23,21 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      throw new Error();
       console.log(data);
     } catch (error) {
       setError("email", {
+        type: "manual",
         message: "Email already exists",
       });
       setError("username", {
+        type: "manual",
         message: "Username already exists",
       });
     }
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-[810px] lg:p-20 md:p-20 sm:p-[50px] xs:p-[40px] xs:py-[100px] py-[100px] px-[10px]">
+    <div className="flex items-center justify-center w-screen h-[850px] lg:p-20 md:p-20 sm:p-[50px] xs:p-[40px] xs:py-[100px] py-[100px] px-[10px]">
       {/* First Div (Image Section) */}
       <div className="sm:w-full lg:w-2/5 w-[0px] hidden p-3 bg-[url('../src/assets/login.png')] bg-no-repeat bg-cover bg-center h-full sm:flex sm:flex-col sm:justify-center sm:items-center rounded-l-3xl"></div>
 
@@ -157,7 +158,7 @@ const RegisterForm = () => {
             disabled={isSubmitting}
             className="w-full py-2 bg-black text-white text-[14px] rounded-lg hover:bg-gray-800 h-12"
           >
-            {isSubmitting ? "Loading..." : "SIGN UP"}
+            {isSubmitting ? "LOADING..." : "SIGN UP"}
           </button>
         </form>
         <div className="flex items-center my-4">

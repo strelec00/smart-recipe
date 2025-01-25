@@ -1,22 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+type FormFields = {
+  email: string;
+  password: string;
+};
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
+  const onSubmit = async (data: FormFields) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(data);
+    } catch (error) {
+      setError("email", {
+        message: "Invalid email or password.",
+      });
+      setError("password", {
+        message: "Invalid email or password.",
+      });
+    }
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-[800px] lg:p-15 md:p-20 sm:p-[50px] xs:p-[20px] xs:py-[100px] py-[100px] px-[10px]">
+    <div className="flex items-center justify-center w-screen h-[820px] lg:p-20 md:p-20 sm:p-[50px] xs:p-[20px] xs:py-[100px] py-[100px] px-[10px]">
       {/* First Div (Image Section) */}
       <div className="sm:w-full lg:w-2/5 w-[0px] hidden p-3 bg-[url('../src/assets/login.png')] bg-no-repeat bg-cover bg-center h-full sm:flex sm:flex-col sm:justify-center sm:items-center rounded-l-3xl"></div>
 
@@ -28,7 +47,7 @@ const LoginForm = () => {
         <h3 className="text-[23px] text-black text-left mb-5">
           Log In to your Account
         </h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
           {/* Email Input */}
           <div className="relative">
             <label
@@ -40,13 +59,16 @@ const LoginForm = () => {
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              {...register("email", { required: "Email is required" })}
               placeholder="johndoe@example.com"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.email && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.email.message}
+              </div>
+            )}
           </div>
           {/* Password Input */}
           <div className="relative">
@@ -59,13 +81,16 @@ const LoginForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              {...register("password", { required: "Password is required" })}
               placeholder="********"
               className="w-full mt-1 p-2 border border-gray-500 bg-[#FFDCD6] rounded-lg focus:outline-1 focus:outline-black"
               required
             />
+            {errors.password && (
+              <div className="absolute text-red-500 text-sm z-50">
+                {errors.password.message}
+              </div>
+            )}
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
@@ -103,7 +128,7 @@ const LoginForm = () => {
             type="submit"
             className="w-full py-2 bg-black text-white text-[14px] rounded-lg hover:bg-gray-800 h-12"
           >
-            CONTINUE
+            {isSubmitting ? "LOADING..." : "CONTINUE"}
           </button>
         </form>
         <div className="flex items-center my-4">

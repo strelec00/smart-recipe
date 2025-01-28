@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import LoginForm from "./components/LoginForm";
 import Main from "./components/Main";
 import RegisterForm from "./components/RegisterForm";
+import Footer from "./components/Footer";
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
@@ -13,7 +14,7 @@ const App = () => {
           path="/"
           element={
             <>
-              <Header /> <Main />
+              <Header /> <Main /> <Footer />
             </>
           }
         />

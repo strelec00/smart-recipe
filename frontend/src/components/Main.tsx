@@ -2,7 +2,7 @@ const Main = () => {
   return (
     <>
       <div className="flex justify-center h-screen">
-        <div className="bg-[#EF5C0C] h-[500px] w-screen">
+        <div className="bg-[#EF5C0C] h-[540px] w-screen">
           {/* About Us */}
           <p className="text-center text-[40px] font-crimson mt-2 text-white ">
             About Us

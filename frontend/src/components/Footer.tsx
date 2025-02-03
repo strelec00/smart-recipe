@@ -92,7 +92,7 @@ const Footer = () => {
 
         {/* Social & Copyright */}
         <ul className="text-center text-[14px]">
-          <h3 className="text-[18px] mb-3">Social</h3>
+          <h3 className="text-[18px] mb-3">Socials</h3>
           <div className="flex justify-center space-x-7 mb-4">
             <li>
               <a href="#">

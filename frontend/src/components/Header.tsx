@@ -34,7 +34,7 @@ const Header = () => {
       {/* Main Content & Background */}
       <div className="flex h-auto w-full">
         {/* Main Content */}
-        <div className="xmd:w-1/3 w-full flex xmd:justify-normal justify-center ml-9 mt-60">
+        <div className="xmd:w-1/3 w-full h-screen sm:px-1  px-2 flex xmd:justify-normal justify-center items-center">
           <div className="w-full text-center">
             <p className="text-[52px] font-crimson mb-[20px] font-light">
               Be your own Chef
@@ -60,7 +60,7 @@ const Header = () => {
 
         {/* Background Image */}
         <div
-          className="h-screen xmd:w-2/3 p-3 xmd:bg-[url('../src/assets/bg_chef_red2.png')] bg-right-top bg-no-repeat bg-contain"
+          className="h-screen xmd:w-2/3 p-3 bg-[url('../src/assets/bg_chef_red2.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"
           id="home"
         ></div>
       </div>

@@ -137,7 +137,7 @@ const LoginForm = () => {
           <hr className="flex-grow border-gray-500" />
         </div>
         {/* Social Login Buttons */}
-        <div className="space-y-3">
+        <div className="space-y-3 flex flex-col items-center">
           {/* Google Button */}
           <button className="w-full flex items-center relative py-2 px-4 bg-white text-gray-500 font-light rounded-md shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-[13px]">
             <img

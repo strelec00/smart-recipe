@@ -32,7 +32,7 @@ const Header = () => {
       />
       */}
       {/* Main Content & Background */}
-      <div className="flex h-auto w-full">
+      <div className="flex h-screen w-full">
         {/* Main Content */}
         <div className="xmd:w-1/3 w-full h-screen sm:px-1  px-2 flex xmd:justify-normal justify-center items-center">
           <div className="w-full text-center">
@@ -60,7 +60,7 @@ const Header = () => {
 
         {/* Background Image */}
         <div
-          className="h-screen xmd:w-2/3 p-3 bg-[url('../src/assets/bg_chef_red2.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"
+          className="h-screen xmd:w-2/3 bg-[url('../src/assets/bg_chef_red2.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"
           id="home"
         ></div>
       </div>

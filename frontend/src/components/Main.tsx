@@ -4,7 +4,7 @@ const Main = () => {
   return (
     <>
       <div className="flex justify-center mb-[400px] mt-[50px]">
-        <div className="bg-[#EF5C0C] w-screen pb-[50px] lg:pb-[70px] pt-2">
+        <div className="bg-[#EF5C0C] w-screen pb-[50px] lg:pb-[70px ] pt-2">
           {/* About Us */}
           <p className="text-center text-[40px] font-crimson mt-2 text-white ">
             About Us
@@ -30,7 +30,7 @@ const Main = () => {
               </Link>
             </div>
             {/* Image */}
-            <div className="w-2/5 lg:w-1/2 h-[50px] ml-30 lg:ml-36 mt-3 hidden mld:block">
+            <div className="w-2/5 lg:w-1/2  ml-30 lg:ml-36 mt-3 hidden mld:block">
               <img
                 src="../src/assets/food3.png"
                 alt=""

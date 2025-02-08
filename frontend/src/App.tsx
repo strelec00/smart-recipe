@@ -14,7 +14,15 @@ const App = () => {
           path="/"
           element={
             <>
-              <Header /> <Main /> <Footer />
+              <Header logged={false} /> <Main /> <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/id"
+          element={
+            <>
+              <Header logged={true} /> <Footer />
             </>
           }
         />

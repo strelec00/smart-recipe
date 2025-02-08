@@ -204,14 +204,14 @@ const RegisterForm = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-[#EE4C0C] hover:underline font-medium"
           >
             LOGIN HERE
           </Link>
         </p>
         {/* Return to Homepage */}
         <p className="mt-4 text-center text-sm text-gray-600">
-          <Link to="/" className="text-blue-600 hover:underline font-medium">
+          <Link to="/" className="text-[#EE4C0C] hover:underline font-medium">
             Return to Homepage
           </Link>
         </p>

@@ -174,7 +174,7 @@ const LoginForm = () => {
           New User?{" "}
           <Link
             to="/register"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-[#EE4C0C] hover:underline font-medium"
           >
             SIGN UP HERE
           </Link>
@@ -182,7 +182,7 @@ const LoginForm = () => {
 
         {/* Return to Homepage */}
         <p className="mt-4 text-center text-sm text-gray-600">
-          <Link to="/" className="text-blue-600 hover:underline font-medium">
+          <Link to="/" className="text-[#EE4C0C] hover:underline font-medium">
             Return to Homepage
           </Link>
         </p>

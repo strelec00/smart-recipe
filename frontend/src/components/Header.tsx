@@ -14,12 +14,12 @@ const Header = ({ logged }: HeaderProps) => {
         <div className="xmd:w-1/3 w-full h-screen sm:px-1 px-2 flex flex-col xmd:pt-[17%] xmd:justify-normal justify-center">
           {" "}
           <div className="w-full text-center">
-            <p className="text-[52px] font-crimson mb-[20px] font-light">
+            <p className="text-[52px] font-crimson  font-light">
               Be your own Chef
             </p>
             {!logged && (
               <>
-                <p className="text-[22px] font-crimson px-[0px] font-light">
+                <p className="text-[22px] font-crimson px-[0px] text-[#585147] ">
                   Create recipes with ingredients you have at home, access our
                   AI recipe maker
                 </p>
@@ -39,10 +39,25 @@ const Header = ({ logged }: HeaderProps) => {
             )}
             {logged && (
               <>
-                <p className="text-[22px] font-crimson px-[0px] font-light">
+                <p className="text-[22px] font-crimson px-[0px] text-[#585147]">
                   Type in your ingredients to discover new recipes
                 </p>
-                <div className="flex justify-center mt-[50px] space-x-9">
+
+                <div className="flex justify-center mt-[40px]">
+                  <div className="flex items-center bg-[#EEA47F] rounded-full px-4 py-2 w-full max-w-[500px]">
+                    <button className="text-black"></button>
+                    <input
+                      type="text"
+                      placeholder="Search for ingredients"
+                      className="bg-transparent outline-none text-[#34322F] pl-6 flex-grow placeholder:text-[#504535] placeholder:font-light text-[15px]"
+                    />
+                    <button className="text-black ">
+                      <img src="../src/assets/icons/search.png" alt="" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex justify-center mt-[40px] space-x-9">
                   <Link to="/id">
                     <Button
                       className="rounded-[30px] border-black border w-[148px] h-[41px]"

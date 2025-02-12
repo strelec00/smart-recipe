@@ -52,7 +52,11 @@ const Header = ({ logged }: HeaderProps) => {
                       className="bg-transparent outline-none text-[#34322F] pl-6 flex-grow placeholder:text-[#504535] placeholder:font-light text-[15px]"
                     />
                     <button className="text-black ">
-                      <img src="../src/assets/icons/search.png" alt="" />
+                      <img
+                        src="../src/assets/icons/search.png"
+                        alt=""
+                        className="opacity-60"
+                      />
                     </button>
                   </div>
                 </div>

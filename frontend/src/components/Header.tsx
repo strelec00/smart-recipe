@@ -112,7 +112,7 @@ const Header = ({ logged }: HeaderProps) => {
       </div>
       {/* Ingredients List */}
       <div className="flex">
-        <div className="flex space-x-3 ml-5">
+        <div className="flex flex-wrap space-x-3 ml-5 ">
           {ingredients.map((item) => (
             <div
               key={item}

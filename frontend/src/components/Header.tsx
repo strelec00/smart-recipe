@@ -10,6 +10,17 @@ const Header = ({ logged }: HeaderProps) => {
     <div className="flex">
       {/* Main Content & Background */}
       <div className="flex h-screen w-full">
+        {logged && (
+          <div className=" left m-5 w-[80px] h-[75px] absolute">
+            <Link to="/">
+              <img
+                src="../src/assets/icons/male-user.png"
+                alt=""
+                className="w-[80px] h-[75px] rounded-full"
+              />
+            </Link>
+          </div>
+        )}
         {/* Main Content */}
         <div className="xmd:w-1/3 w-full h-screen sm:px-1 px-2 flex flex-col xmd:pt-[17%] xmd:justify-normal justify-center">
           {" "}
@@ -79,7 +90,6 @@ const Header = ({ logged }: HeaderProps) => {
             )}
           </div>
         </div>
-
         {/* Background Image */}
         <div
           className="h-screen xmd:w-2/3 bg-[url('../src/assets/bg_chef_red2.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"

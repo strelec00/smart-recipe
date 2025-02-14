@@ -8,21 +8,21 @@ type HeaderProps = {
 const Header = ({ logged }: HeaderProps) => {
   return (
     <div className="flex">
-      {/* Main Content & Background */}
+      {/* Content & Background */}
       <div className="flex h-screen w-full">
         {logged && (
-          <div className=" left m-5 w-[80px] h-[75px] absolute">
+          <div className="xs:m-5 m-2 sm:w-[75px] sm:h-[75px] w-[60px] h-[60px] absolute">
             <Link to="/">
               <img
                 src="../src/assets/icons/male-user.png"
                 alt=""
-                className="w-[80px] h-[75px] rounded-full"
+                className=" rounded-full"
               />
             </Link>
           </div>
         )}
-        {/* Main Content */}
-        <div className="xmd:w-1/3 w-full h-screen sm:px-1 px-2 flex flex-col xmd:pt-[17%] xmd:justify-normal justify-center">
+        {/* Content */}
+        <div className="xmd:w-1/3 w-full h-screen sm:px-2 px-2 xl:pl-10 flex flex-col xmd:pt-[17%] xmd:justify-normal justify-center">
           {" "}
           <div className="w-full text-center">
             <p className="text-[52px] font-crimson  font-light">
@@ -72,7 +72,7 @@ const Header = ({ logged }: HeaderProps) => {
                   </div>
                 </div>
 
-                <div className="flex justify-center mt-[40px] space-x-9">
+                <div className="flex justify-center mt-[40px] xs:space-x-9 space-x-5">
                   <Link to="/id">
                     <Button
                       className="rounded-[30px] border-black border w-[148px] h-[41px]"

@@ -4,6 +4,8 @@ A platform that recommends recipes based on ingredients users have at home, diet
 - backend folder(Spring Boot)
 - frontend folder(React)
 
+Spoonacular API is used for searching recipes via ingredients.
+
 ## Rules
 Push to a new branch(`feat/name` or `fix/name`), open a Pull Request
 

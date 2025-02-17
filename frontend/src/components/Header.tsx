@@ -78,7 +78,10 @@ const Header = ({ logged }: HeaderProps) => {
                       onKeyDown={handleKeyDown} // Handle Enter key press
                       className="bg-transparent outline-none text-[#34322F] pl-6 flex-grow placeholder:text-[#504535] placeholder:font-light text-[15px]"
                     />
-                    <button onClick={handleSearch} className="text-black">
+                    <button
+                      onClick={handleSearch}
+                      className="text-black pl-[5px] border-l border-[#504535] border-opacity-80"
+                    >
                       <img
                         src="../src/assets/icons/search.png"
                         alt=""

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import profilePic from "../assets/icons/male-user.png";
-import axios from "axios";
+import dataIngredients from "../data/ingredients.json";
 
 type HeaderProps = {
   logged: boolean;
@@ -10,12 +10,12 @@ type HeaderProps = {
 const Header = ({ logged }: HeaderProps) => {
   const [ingredients, setIngredients] = useState<string[]>([]);
 
-  const [ingredient, setIngredient] = useState("");
+  const [value, setValue] = useState("");
 
   const handleSearch = () => {
-    if (ingredient.trim() !== "" && !ingredients.includes(ingredient)) {
-      setIngredients([...ingredients, ingredient]);
-      setIngredient(""); // Clear input after adding
+    if (value.trim() !== "" && !ingredients.includes(value)) {
+      setIngredients([...ingredients, value]);
+      setValue("");
     }
   };
 
@@ -71,8 +71,8 @@ const Header = ({ logged }: HeaderProps) => {
                     <input
                       type="text"
                       placeholder="Search for ingredients"
-                      value={ingredient}
-                      onChange={(e) => setIngredient(e.target.value)}
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
                       onKeyDown={handleKeyDown} // Handle Enter key press
                       className="bg-transparent outline-none text-[#34322F] pl-6 flex-grow placeholder:text-[#504535] placeholder:font-light text-[15px]"
                     />
@@ -87,6 +87,15 @@ const Header = ({ logged }: HeaderProps) => {
                       />
                     </button>
                   </div>
+                </div>
+                <div className="flex flex-col absolute bg-slate-200">
+                  {dataIngredients
+                    .filter((item) => {})
+                    .map((item) => (
+                      <div key={item.ingredient} className="mb-1">
+                        {item.ingredient}
+                      </div>
+                    ))}
                 </div>
 
                 <div className="flex justify-center mt-[40px] xs:space-x-9 space-x-5">

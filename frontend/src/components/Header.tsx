@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import profilePic from "../assets/icons/male-user.png";
+import axios from "axios";
 
 type HeaderProps = {
   logged: boolean;
@@ -30,11 +32,7 @@ const Header = ({ logged }: HeaderProps) => {
         {logged && (
           <div className="xs:m-5 m-2 sm:w-[75px] sm:h-[75px] w-[60px] h-[60px] absolute">
             <Link to="/">
-              <img
-                src="../src/assets/icons/male-user.png"
-                alt=""
-                className="rounded-full"
-              />
+              <img src={profilePic} alt="" className="rounded-full" />
             </Link>
           </div>
         )}
@@ -109,7 +107,7 @@ const Header = ({ logged }: HeaderProps) => {
         </div>
         {/* Background Image */}
         <div
-          className="xmd:w-2/3 bg-[url('../src/assets/bg_chef_red2.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"
+          className="xmd:w-2/3 bg-[url('../src/assets/bg_chef_red.png')] xmd:block hidden bg-right-top bg-no-repeat bg-contain"
           id="home"
         ></div>
       </div>

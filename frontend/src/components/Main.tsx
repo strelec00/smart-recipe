@@ -32,7 +32,7 @@ const Main = () => {
             {/* Image */}
             <div className="w-2/5 lg:w-1/2  ml-30 lg:ml-36 mt-3 hidden mld:block">
               <img
-                src="../src/assets/food3.png"
+                src="../src/assets/food.png"
                 alt=""
                 className="h-[380px] w-[400px]"
               />

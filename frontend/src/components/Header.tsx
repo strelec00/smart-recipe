@@ -90,9 +90,23 @@ const Header = ({ logged }: HeaderProps) => {
                 </div>
                 <div className="flex flex-col absolute bg-slate-200">
                   {dataIngredients
-                    .filter((item) => {})
+                    .filter((item) => {
+                      const searchTerm = value.toLowerCase();
+                      const ingredient = item.ingredient.toLowerCase();
+
+                      return (
+                        searchTerm &&
+                        ingredient.startsWith(searchTerm) &&
+                        searchTerm != ingredient
+                      );
+                    })
+                    .slice(0, 4)
                     .map((item) => (
-                      <div key={item.ingredient} className="mb-1">
+                      <div
+                        onClick={() => setValue(item.ingredient)}
+                        key={item.ingredient}
+                        className="mb-1"
+                      >
                         {item.ingredient}
                       </div>
                     ))}

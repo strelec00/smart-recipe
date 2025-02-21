@@ -97,8 +97,13 @@ const Header = ({ logged }: HeaderProps) => {
                 </p>
 
                 {/* Search Input */}
-                <div className="flex justify-center mt-[40px]">
-                  <div className="flex items-center bg-[#EEA47F] rounded-full px-4 py-2 w-full max-w-[500px]">
+                <div className="flex flex-col items-center mt-[40px]">
+                  {errorSuggestionMessage && (
+                    <div className=" text-red-600 pb-2 -mt-6">
+                      {errorSuggestionMessage}
+                    </div>
+                  )}
+                  <div className="flex items-center bg-[#EEA47F] rounded-full px-4 py-2 w-full max-w-[500px] ">
                     <input
                       ref={inputRef}
                       type="text"
@@ -122,12 +127,13 @@ const Header = ({ logged }: HeaderProps) => {
                     </button>
                   </div>
                 </div>
+
                 {/* Suggestion Tab */}
                 <div className="relative">
                   {suggestionOpen && (
                     <div
                       ref={suggestionRef}
-                      className="absolute top-full left-0 w-full bg-white rounded-lg mt-1 z-10 border border-gray-300"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2  w-full bg-[#EEA47F] max-w-[500px] rounded-lg mt-1 z-10 border-gray-300"
                     >
                       {dataIngredients
                         .filter((item) => {
@@ -148,7 +154,7 @@ const Header = ({ logged }: HeaderProps) => {
                             onClick={() => {
                               setValue(item.ingredient);
                             }}
-                            className="p-2 hover:bg-gray-200 cursor-pointer"
+                            className="p-2 hover:bg-[#EEA47F] cursor-pointer"
                           >
                             {item.ingredient}
                           </div>
@@ -156,9 +162,7 @@ const Header = ({ logged }: HeaderProps) => {
                     </div>
                   )}
                 </div>
-                {errorSuggestionMessage && (
-                  <div className=" text-red-600">{errorSuggestionMessage}</div>
-                )}
+
                 {/* Submit & OpenAI buttons */}
                 <div className="flex justify-center mt-[40px] xs:space-x-9 space-x-5">
                   <Link to="/id">
@@ -183,7 +187,7 @@ const Header = ({ logged }: HeaderProps) => {
         ></div>
       </div>
       {/* Botttom Ingredients List */}
-      <div className="flex">
+      <div className="flex min-h-[40px]">
         <div className="flex flex-wrap space-x-3 ml-5 ">
           {ingredients.map((item) => (
             <div

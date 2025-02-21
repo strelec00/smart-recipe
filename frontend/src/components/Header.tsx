@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import profilePic from "../assets/icons/male-user.png";
 import dataIngredients from "../data/ingredients.json";
@@ -9,13 +9,24 @@ type HeaderProps = {
 
 const Header = ({ logged }: HeaderProps) => {
   const [ingredients, setIngredients] = useState<string[]>([]);
-
+  const [suggestionOpen, setSuggestionOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [errorSuggestionMessage, setErrorSuggestionMessage] = useState("");
+
+  const suggestionRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    if (value.trim() !== "" && !ingredients.includes(value)) {
+    if (
+      value.trim() !== "" &&
+      !ingredients.includes(value) &&
+      dataIngredients.some((item) => item.ingredient === value)
+    ) {
       setIngredients([...ingredients, value]);
       setValue("");
+      setErrorSuggestionMessage("");
+    } else {
+      setErrorSuggestionMessage("Ingredient does't exist!");
     }
   };
 
@@ -24,6 +35,24 @@ const Header = ({ logged }: HeaderProps) => {
       handleSearch();
     }
   };
+
+  // Close suggestion box when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node) &&
+        suggestionRef.current &&
+        !suggestionRef.current.contains(event.target as Node)
+      ) {
+        setSuggestionOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col h-screen w-full">
@@ -60,18 +89,23 @@ const Header = ({ logged }: HeaderProps) => {
                 </div>
               </>
             )}
+            {/* Search Content */}
             {logged && (
               <>
                 <p className="text-[22px] font-crimson px-[0px] text-[#585147]">
                   Type in your ingredients to discover new recipes
                 </p>
 
+                {/* Search Input */}
                 <div className="flex justify-center mt-[40px]">
                   <div className="flex items-center bg-[#EEA47F] rounded-full px-4 py-2 w-full max-w-[500px]">
                     <input
+                      ref={inputRef}
                       type="text"
                       placeholder="Search for ingredients"
                       value={value}
+                      onBlur={() => setSuggestionOpen(false)}
+                      onFocus={() => setSuggestionOpen(true)}
                       onChange={(e) => setValue(e.target.value)}
                       onKeyDown={handleKeyDown} // Handle Enter key press
                       className="bg-transparent outline-none text-[#34322F] pl-6 flex-grow placeholder:text-[#504535] placeholder:font-light text-[15px]"
@@ -88,30 +122,44 @@ const Header = ({ logged }: HeaderProps) => {
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col absolute bg-slate-200">
-                  {dataIngredients
-                    .filter((item) => {
-                      const searchTerm = value.toLowerCase();
-                      const ingredient = item.ingredient.toLowerCase();
+                {/* Suggestion Tab */}
+                <div className="relative">
+                  {suggestionOpen && (
+                    <div
+                      ref={suggestionRef}
+                      className="absolute top-full left-0 w-full bg-white rounded-lg mt-1 z-10 border border-gray-300"
+                    >
+                      {dataIngredients
+                        .filter((item) => {
+                          const searchTerm = value.toLowerCase();
+                          const ingredient = item.ingredient.toLowerCase();
 
-                      return (
-                        searchTerm &&
-                        ingredient.startsWith(searchTerm) &&
-                        searchTerm != ingredient
-                      );
-                    })
-                    .slice(0, 4)
-                    .map((item) => (
-                      <div
-                        onClick={() => setValue(item.ingredient)}
-                        key={item.ingredient}
-                        className="mb-1"
-                      >
-                        {item.ingredient}
-                      </div>
-                    ))}
+                          return (
+                            searchTerm &&
+                            ingredient.startsWith(searchTerm) &&
+                            searchTerm !== ingredient
+                          );
+                        })
+                        .slice(0, 4)
+                        .map((item) => (
+                          <div
+                            key={item.ingredient}
+                            onMouseDown={(e) => e.preventDefault()} // Prevents blur from firing before click
+                            onClick={() => {
+                              setValue(item.ingredient);
+                            }}
+                            className="p-2 hover:bg-gray-200 cursor-pointer"
+                          >
+                            {item.ingredient}
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </div>
-
+                {errorSuggestionMessage && (
+                  <div className=" text-red-600">{errorSuggestionMessage}</div>
+                )}
+                {/* Submit & OpenAI buttons */}
                 <div className="flex justify-center mt-[40px] xs:space-x-9 space-x-5">
                   <Link to="/id">
                     <button className="rounded-[30px] border-black border w-[148px] h-[41px]">
@@ -134,7 +182,7 @@ const Header = ({ logged }: HeaderProps) => {
           id="home"
         ></div>
       </div>
-      {/* Ingredients List */}
+      {/* Botttom Ingredients List */}
       <div className="flex">
         <div className="flex flex-wrap space-x-3 ml-5 ">
           {ingredients.map((item) => (
@@ -145,9 +193,9 @@ const Header = ({ logged }: HeaderProps) => {
               <p className="text-[#6E6A6A] text-[13px]">{item}</p>
               <button
                 className="ml-[5px]"
-                onClick={() =>
-                  setIngredients(ingredients.filter((i) => i !== item))
-                }
+                onClick={() => {
+                  setIngredients(ingredients.filter((i) => i !== item));
+                }}
               >
                 <img src="../src/assets/icons/exit.png" alt="" />
               </button>

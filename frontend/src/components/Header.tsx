@@ -12,30 +12,76 @@ const Header = ({ logged }: HeaderProps) => {
   const [suggestionOpen, setSuggestionOpen] = useState(false);
   const [value, setValue] = useState("");
   const [errorSuggestionMessage, setErrorSuggestionMessage] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const suggestionRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const isValidIngredient =
+    value.trim() !== "" &&
+    !ingredients.includes(value) &&
+    dataIngredients.some(
+      (item) => item.ingredient.toLowerCase() === value.toLowerCase()
+    );
+
+  const isUsed = dataIngredients.some(
+    (item) => item.ingredient.toLowerCase() === value.toLowerCase()
+  );
+
   const handleSearch = () => {
-    if (
-      value.trim() !== "" &&
-      !ingredients.includes(value) &&
-      dataIngredients.some((item) => item.ingredient === value)
-    ) {
+    setSuggestionOpen(true);
+    if (isValidIngredient) {
       setIngredients([...ingredients, value]);
       setValue("");
       setErrorSuggestionMessage("");
+      setSelectedIndex(-1);
     } else {
-      setErrorSuggestionMessage("Ingredient does't exist!");
+      if (isUsed) {
+        setErrorSuggestionMessage("Ingredient already used!");
+      } else {
+        setErrorSuggestionMessage("Ingredient doesn't exist!");
+      }
+      setValue("");
     }
   };
 
+  const filteredSuggestions = dataIngredients
+    .filter((item) => {
+      const searchTerm = value.toLowerCase();
+      const ingredient = item.ingredient.toLowerCase();
+      return (
+        searchTerm &&
+        ingredient.startsWith(searchTerm) &&
+        searchTerm !== ingredient
+      );
+    })
+    .slice(0, 4);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (filteredSuggestions.length > 0) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedIndex((prev) =>
+          prev < filteredSuggestions.length - 1 ? prev + 1 : prev
+        );
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (selectedIndex !== -1) {
+          setValue(filteredSuggestions[selectedIndex].ingredient);
+          setSuggestionOpen(false);
+          setSelectedIndex(-1);
+        } else {
+          handleSearch();
+        }
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
       handleSearch();
     }
   };
-
   // Close suggestion box when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -133,32 +179,26 @@ const Header = ({ logged }: HeaderProps) => {
                   {suggestionOpen && (
                     <div
                       ref={suggestionRef}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2  w-full bg-[#EEA47F] max-w-[500px] rounded-lg mt-1 z-10 border-gray-300"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full bg-[#EEA47F] bg-opacity-90 max-w-[500px] rounded-lg mt-1 z-10 border-gray-300"
                     >
-                      {dataIngredients
-                        .filter((item) => {
-                          const searchTerm = value.toLowerCase();
-                          const ingredient = item.ingredient.toLowerCase();
-
-                          return (
-                            searchTerm &&
-                            ingredient.startsWith(searchTerm) &&
-                            searchTerm !== ingredient
-                          );
-                        })
-                        .slice(0, 4)
-                        .map((item) => (
-                          <div
-                            key={item.ingredient}
-                            onMouseDown={(e) => e.preventDefault()} // Prevents blur from firing before click
-                            onClick={() => {
-                              setValue(item.ingredient);
-                            }}
-                            className="p-2 hover:bg-[#EEA47F] cursor-pointer"
-                          >
-                            {item.ingredient}
-                          </div>
-                        ))}
+                      {filteredSuggestions.map((item, index) => (
+                        <div
+                          key={item.ingredient}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            setValue(item.ingredient);
+                            setSuggestionOpen(false);
+                            setSelectedIndex(-1);
+                          }}
+                          className={`p-2 cursor-pointer ${
+                            selectedIndex === index
+                              ? "bg-[#EE4C0C] text-white"
+                              : "hover:bg-[#EEA47F]"
+                          }`}
+                        >
+                          {item.ingredient}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>

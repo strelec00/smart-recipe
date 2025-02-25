@@ -5,6 +5,7 @@ import RegisterForm from "./components/RegisterForm";
 import Footer from "./components/Footer";
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Profile from "./components/Profile";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

@@ -106,7 +106,7 @@ const Header = ({ logged }: HeaderProps) => {
       <div className="flex h-full w-full">
         {logged && (
           <div className="xs:m-5 m-2 sm:w-[75px] sm:h-[75px] w-[60px] h-[60px] absolute">
-            <Link to="/">
+            <Link to="/profile">
               <img src={profilePic} alt="" className="rounded-full" />
             </Link>
           </div>
@@ -179,7 +179,7 @@ const Header = ({ logged }: HeaderProps) => {
                   {suggestionOpen && (
                     <div
                       ref={suggestionRef}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full bg-[#EEA47F] bg-opacity-90 max-w-[500px] rounded-lg mt-1 z-10 border-gray-300"
+                      className="absolute top-1 left-0 w-full bg-white rounded-lg mt-1 z-20 shadow-lg border border-gray-200 overflow-hidden"
                     >
                       {filteredSuggestions.map((item, index) => (
                         <div
@@ -192,7 +192,7 @@ const Header = ({ logged }: HeaderProps) => {
                           }}
                           className={`p-2 cursor-pointer ${
                             selectedIndex === index
-                              ? "bg-[#EE4C0C] text-white"
+                              ? "bg-[#EE4C0C] text-white rounded-lg"
                               : "hover:bg-[#EEA47F]"
                           }`}
                         >

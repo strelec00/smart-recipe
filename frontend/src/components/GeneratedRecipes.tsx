@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import profilePic from "../assets/icons/male-user.png";
 
@@ -15,6 +15,8 @@ interface Recipe {
   image: string;
   difficulty: "Easy" | "Medium" | "Hard";
   calories: number;
+  missedIngredients?: string[];
+  missedIngredientsCount?: number;
 }
 
 interface RecipeGeneratorProps {
@@ -23,16 +25,30 @@ interface RecipeGeneratorProps {
 }
 
 const RecipeGenerator = ({
-  ingredients,
+  ingredients: initialIngredients,
   onBackToIngredients,
 }: RecipeGeneratorProps) => {
+  const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState("");
 
+  // Function to remove an ingredient
+  const removeIngredient = (itemToRemove: string) => {
+    const updatedIngredients = ingredients.filter(
+      (item) => item !== itemToRemove
+    );
+    setIngredients(updatedIngredients);
+
+    // If all ingredients are removed, go back to the ingredients selection screen
+    if (updatedIngredients.length === 0) {
+      onBackToIngredients();
+    }
+  };
+
   // Function to generate recipes based on ingredients
-  const generateRecipes = async () => {
+  const generateRecipes = useCallback(async () => {
     if (ingredients.length === 0) {
       setError("Please add at least one ingredient");
       return;
@@ -142,6 +158,18 @@ const RecipeGenerator = ({
         );
       });
 
+      // Calculate missed ingredients for each recipe
+      filteredRecipes.forEach((recipe) => {
+        const missed = recipe.ingredients.filter(
+          (ingredient) =>
+            !ingredients.some((userIngredient) =>
+              ingredient.toLowerCase().includes(userIngredient.toLowerCase())
+            )
+        );
+        recipe.missedIngredients = missed;
+        recipe.missedIngredientsCount = missed.length;
+      });
+
       setRecipes(filteredRecipes);
       if (filteredRecipes.length > 0) {
         setActiveRecipe(filteredRecipes[0]);
@@ -156,12 +184,19 @@ const RecipeGenerator = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [ingredients]);
+
+  // Regenerate recipes when ingredients change
+  useEffect(() => {
+    if (ingredients.length > 0) {
+      generateRecipes();
+    }
+  }, [ingredients, generateRecipes]);
 
   // Call generateRecipes when component mounts
-  useState(() => {
+  useEffect(() => {
     generateRecipes();
-  });
+  }, []);
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -206,14 +241,33 @@ const RecipeGenerator = ({
         {/* Ingredients summary */}
         <div className="mb-6">
           <h2 className="text-2xl font-crimson mb-3">Your Ingredients</h2>
-          <div className="flex flex-wrap gap-2">
-            {ingredients.map((ingredient, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-[#EEA47F] text-[#34322F] rounded-full text-sm"
+          <div className="flex flex-wrap space-x-3 ml-1">
+            {ingredients.map((item) => (
+              <div
+                key={item}
+                className="flex border-[#333030] border-[1px] border-opacity-50 rounded-[20px] px-[10px] py-[2px] mb-4"
               >
-                {ingredient}
-              </span>
+                <p className="text-[#6E6A6A] text-[16px]">{item}</p>
+                <button
+                  className="ml-[5px]"
+                  onClick={() => removeIngredient(item)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3 w-3 text-[#6E6A6A]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
             ))}
           </div>
         </div>
@@ -342,71 +396,90 @@ const RecipeGenerator = ({
                     </span>
                     <span>Serves: {activeRecipe.servings}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[#EE4C0C]">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-                        />
-                      </svg>
-                    </span>
-                    <span>{activeRecipe.calories} calories per serving</span>
-                  </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                   <div>
-                    <h2 className="text-xl font-crimson mb-3 text-[#34322F]">
+                    <h2 className="text-xl font-crimson mb-3 text-[#34322F] flex items-center justify-between">
                       Ingredients
+                      {(activeRecipe.missedIngredientsCount ?? 0) > 0 && (
+                        <span className="text-sm font-normal text-amber-600 flex items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
+                          </svg>
+                          {activeRecipe.missedIngredientsCount} missing
+                        </span>
+                      )}
                     </h2>
                     <ul className="space-y-2">
-                      {activeRecipe.ingredients.map((ingredient, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="text-[#EE4C0C] mr-2">•</span>
-                          <span>{ingredient}</span>
-                        </li>
-                      ))}
+                      {activeRecipe.ingredients.map((ingredient, index) => {
+                        const isMissing = !ingredients.some((userIngredient) =>
+                          ingredient
+                            .toLowerCase()
+                            .includes(userIngredient.toLowerCase())
+                        );
+                        return (
+                          <li key={index} className="flex items-start">
+                            <span
+                              className={`${
+                                isMissing ? "text-amber-600" : "text-[#EE4C0C]"
+                              } mr-2`}
+                            >
+                              •
+                            </span>
+                            <span className="flex-1">{ingredient}</span>
+                            {isMissing && (
+                              <span
+                                className="text-amber-600 ml-2"
+                                title="Missing ingredient"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                  />
+                                </svg>
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <h3 className="text-lg font-medium mb-2">
-                      Nutrition Facts
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-1">
-                      Calories: {activeRecipe.calories} kcal
-                    </p>
-                    <p className="text-sm text-gray-600 mb-1">Protein: 24g</p>
-                    <p className="text-sm text-gray-600 mb-1">Carbs: 48g</p>
-                    <p className="text-sm text-gray-600">Fat: 16g</p>
-                    <div className="mt-4 text-xs text-gray-500">
-                      *Approximate values per serving
-                    </div>
+                  <div>
+                    <h2 className="text-xl font-crimson mb-3 text-[#34322F]">
+                      Instructions
+                    </h2>
+                    <ol className="space-y-4">
+                      {activeRecipe.instructions.map((step, index) => (
+                        <li key={index} className="flex">
+                          <span className="bg-[#EE4C0C] text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                            {index + 1}
+                          </span>
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ol>
                   </div>
-                </div>
-
-                <div className="mb-8">
-                  <h2 className="text-xl font-crimson mb-3 text-[#34322F]">
-                    Instructions
-                  </h2>
-                  <ol className="space-y-4">
-                    {activeRecipe.instructions.map((step, index) => (
-                      <li key={index} className="flex">
-                        <span className="bg-[#EE4C0C] text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
-                          {index + 1}
-                        </span>
-                        <span>{step}</span>
-                      </li>
-                    ))}
-                  </ol>
                 </div>
 
                 <div className="mt-8 flex flex-wrap gap-4 justify-between items-center">

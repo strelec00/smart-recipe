@@ -260,9 +260,9 @@ const Header = ({ logged }: HeaderProps) => {
               {ingredients.map((item) => (
                 <div
                   key={item}
-                  className="flex border-[#333030] border-[1px] border-opacity-50 rounded-[20px] px-[10px] py-[2px] mb-4"
+                  className="flex border-[#333030] border-[1px] border-opacity-50 rounded-[20px] px-[16px] py-[2px] mb-4"
                 >
-                  <p className="text-[#6E6A6A] text-[13px]">{item}</p>
+                  <p className="text-[#6E6A6A] text-[15px]">{item}</p>
                   <button
                     className="ml-[5px]"
                     onClick={() => {

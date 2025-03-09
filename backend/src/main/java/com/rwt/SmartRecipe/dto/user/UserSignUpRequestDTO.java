@@ -32,5 +32,4 @@ public class UserSignUpRequestDTO {
     @Size(max = 255, message = "Last name is too long")
     private String lastName;
 
-    private String profileImageUrl;
 }

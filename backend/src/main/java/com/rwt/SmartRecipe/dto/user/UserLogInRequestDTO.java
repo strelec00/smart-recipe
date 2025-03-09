@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLogInRequestDTO {
 
-    @NotNull(message = "Username is mandatory")
-    private String username;
+    @NotNull(message = "Email is mandatory")
+    private String email;
 
     @NotNull(message = "Password is mandatory")
     private String password;

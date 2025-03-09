@@ -22,12 +22,12 @@ public class AuthenticationService {
     public AuthenticationResponseDTO authenticate(final UserLogInRequestDTO request) {
 
         final var authToken = UsernamePasswordAuthenticationToken
-                .unauthenticated(request.getUsername(), request.getPassword());
+                .unauthenticated(request.getEmail(), request.getPassword());
 
         final var authentication = authenticationManager
                 .authenticate(authToken);
 
-        final var token = jwtService.generateToken(request.getUsername());
+        final var token = jwtService.generateToken(request.getEmail());
         return new AuthenticationResponseDTO(token);
     }
 }

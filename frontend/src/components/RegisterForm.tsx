@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type FormFields = {
   username: string;
@@ -24,6 +25,13 @@ const RegisterForm = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log(data);
+      await axios.post("http://localhost:8080/api/users/auth/register", {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        firstName: "",
+        lastName: "",
+      });
     } catch (error) {
       setError("email", {
         type: "manual",

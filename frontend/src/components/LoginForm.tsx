@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 type FormFields = {
   email: string;
@@ -9,6 +10,7 @@ type FormFields = {
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Hook for navigation
 
   const {
     register,
@@ -22,8 +24,15 @@ const LoginForm = () => {
 
   const onSubmit = async (data: FormFields) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(data);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/auth/login",
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
+      localStorage.setItem("token", response.data.token);
+      navigate("/id");
     } catch (error) {
       setError("email", {
         message: "Invalid email or password.",

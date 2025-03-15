@@ -23,7 +23,7 @@ const RegisterForm = () => {
   });
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log(data);
       await axios.post("http://localhost:8080/api/users/auth/register", {
         username: data.username,
@@ -32,6 +32,7 @@ const RegisterForm = () => {
         firstName: "",
         lastName: "",
       });
+      alert("User registered successfully");
     } catch (error) {
       setError("email", {
         type: "manual",

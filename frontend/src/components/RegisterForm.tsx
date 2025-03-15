@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type FormFields = {
   username: string;
@@ -22,8 +23,16 @@ const RegisterForm = () => {
   });
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log(data);
+      await axios.post("http://localhost:8080/api/users/auth/register", {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        firstName: "",
+        lastName: "",
+      });
+      alert("User registered successfully");
     } catch (error) {
       setError("email", {
         type: "manual",
@@ -37,12 +46,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen lg:p-20 md:p-20 sm:p-[50px] xs:p-[40px] xs:py-[50px] py-[50px] px-[10px]">
+    <div className="flex items-center justify-center w-screen h-screen lg:p-[50px] md:p-[50px] sm:p-[50px] xs:p-[20px] xs:py-[50px] py-[50px] px-[10px] min-h-[740px]">
       {/* First Div (Image Section) */}
-      <div className="sm:w-full lg:w-2/5 w-[0px] hidden p-3 bg-[url('../src/assets/login.png')] bg-no-repeat bg-cover bg-center h-full sm:flex sm:flex-col sm:justify-center sm:items-center rounded-l-3xl"></div>
+      <div className="sm:w-full lg:w-2/5 w-[0px] hidden p-3 bg-[url('../src/assets/login.png')] bg-no-repeat bg-cover bg-center h-full sm:flex sm:flex-col sm:justify-center sm:items-center rounded-l-3xl max-w-[550px]"></div>
 
       {/* Second Div (Form Section) */}
-      <div className="sm:w-full lg:w-1/3 w-full p-6 shadow-lg bg-[#FFDCD6] h-full flex flex-col justify-center sm:rounded-r-3xl sm:rounded rounded-3xl">
+      <div className="sm:w-full lg:w-1/3 w-full p-6 shadow-lg bg-[#FFDCD6] h-full flex flex-col justify-center sm:rounded-r-3xl sm:rounded rounded-3xl max-w-[550px]">
         <h2 className="text-[13px] text-gray-700 text-left mb-1 mt-6">
           LET'S GET YOU STARTED
         </h2>

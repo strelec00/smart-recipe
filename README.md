@@ -12,3 +12,9 @@ Push to a new branch(`feat/name` or `fix/name`), open a Pull Request
 ## API
 - Run the Spring Boot server locally
 - Go to http://localhost:8080/swagger-ui/api-docs.html to view endpoints
+
+
+## Routes
+- http://localhost:5173/ => home
+- http://localhost:5173/id => home (logged in)
+- http://localhost:5173/profile => profile

@@ -16,5 +16,5 @@ Push to a new branch(`feat/name` or `fix/name`), open a Pull Request
 
 ## Routes
 - http://localhost:5173/ => home
-- http://localhost:5173/id => home (logged in)
+- http://localhost:5173/id => home (logged in) -> generate button
 - http://localhost:5173/profile => profile
